@@ -4,7 +4,12 @@ export default class Drag {
             handler instanceof HTMLElement) {
             this.containerElement = containerElement
             this.handler = handler
-            this.config = { ...config, max: config.max ?? this.containerElement.offsetHeight, min: config.min ?? 0 }
+            this.config = { 
+                ...config, 
+                max: config.max ?? this.containerElement.offsetHeight, 
+                min: config.min ?? 0,
+                midPoint: config.midPoint ?? .5
+            }
         } else {
             throw ("containerElement or handler should be of type HTMLElement")
         }
@@ -22,16 +27,9 @@ export default class Drag {
         this.handler.addEventListener("touchend", () => this.#touchEndEventHandler(newHeight))
     }
     #touchEndEventHandler(newHeight) {
-        if (newHeight >= (0.50 * this.config.max)) {
-            this.containerElement.setAttribute("style", `height: ${this.config.max + 'px'}`)
-        }
-
-        if (newHeight <= (0.50 * this.config.max)) {
-            this.containerElement.setAttribute("style", `height: ${this.config.min + 'px'}`)
-        }
-
-        if (newHeight <= (0.25 * this.config.max)) {
-            this.containerElement.setAttribute("style", `height: ${0 + 'px'}`)
-        }
+        let midPoint = this.config.midPoint * this.config.max
+        newHeight >= midPoint 
+            ? this.containerElement.setAttribute("style", `height: ${this.config.max + 'px'}`)
+            : this.containerElement.setAttribute("style", `height: ${this.config.min + 'px'}`)
     }
 }
