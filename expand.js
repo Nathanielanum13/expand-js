@@ -4,7 +4,7 @@ export default class Drag {
             handler instanceof HTMLElement) {
             this.containerElement = containerElement
             this.handler = handler
-            this.config = { ...config, max: config.max ?? 500, min: config.min ?? 0 }
+            this.config = { ...config, max: config.max ?? this.containerElement.offsetHeight, min: config.min ?? 0 }
         } else {
             throw ("containerElement or handler should be of type HTMLElement")
         }
@@ -15,12 +15,14 @@ export default class Drag {
     #touchMoveEventHandler(touchEvent) {
         let heightToAdd = this.containerElement.offsetTop - touchEvent.touches[0].pageY
         let newHeight = this.containerElement.clientHeight + heightToAdd
+
+        if (newHeight < 0) newHeight = 0 
         this.containerElement.setAttribute("style", `height: ${newHeight + 'px'}`)
 
         this.handler.addEventListener("touchend", () => this.#touchEndEventHandler(newHeight))
     }
     #touchEndEventHandler(newHeight) {
-        if (newHeight >= (0.75 * this.config.max)) {
+        if (newHeight >= (0.50 * this.config.max)) {
             this.containerElement.setAttribute("style", `height: ${this.config.max + 'px'}`)
         }
 
