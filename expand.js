@@ -1,4 +1,24 @@
 export default class Drag {
+    /**
+     * 
+     * @param {HTMLElement} containerElement 
+     * @param {HTMLElement} handler 
+     * @param {Object} config 
+     * 
+     * **NB**: The `config` argument controls the way your drag instance
+     * behaves. It takes a couple of properties like,
+     * ```js
+     * // Add animation when you release touch
+     * animationClass: String
+     * // The maximum pixel value your container can clip to when touch released  
+     * max: Number 
+     * // The minimum pixel value your container can clip to when touch released 
+     * min: Number 
+     * // A number between [0 - 1] that is used to decide when your container should be clipped. Either to the `max` or `min` value
+     * midPoint: Number 
+     * ``` 
+     * 
+     */
     constructor(containerElement, handler, config = {}) {
         if (containerElement instanceof HTMLElement &&
             handler instanceof HTMLElement) {
