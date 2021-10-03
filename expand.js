@@ -43,6 +43,7 @@ export default class Drag {
         let newHeight = this.containerElement.clientHeight + heightToAdd
 
         if (newHeight < 0) newHeight = 0 
+        if (newHeight > this.config.max) newHeight = this.config.max
         // Remove animation class
         this.config.animationClass.length && this.containerElement.classList.remove(this.config.animationClass)
         // Stream height
